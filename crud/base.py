@@ -2,8 +2,7 @@ from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 from fastapi.encoders import jsonable_encoder
 from fastapi import HTTPException
 from pydantic import BaseModel
-from pydantic.main import create_model
-from sqlalchemy.orm import session 
+from sqlalchemy.orm import session
 from sqlalchemy.orm.exc import NoResultFound
 from db.base_class import Base
 from db.sess import SessionLocal as Session
@@ -19,14 +18,13 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, updateSchemaType]):
         self.model = model
 
 
-    def getTask(self, db:Session, id: any) -> Optional[ModelType]:
+    def getTask(self, db:Session, id: any) -> ModelType:
         try:
-            task = db.query(self.model).filter(self.model.id == id).first()
+            task = db.query(self.model).filter(self.model.id == id).one()   
         except NoResultFound:
-            raise HTTPException(status_code=404,
-                                detail='id todo dont found')
-        return task
-        
+            raise HTTPException(status_code=406,
+                                detail='id task dont found')
+        return task       
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
         obj_in_data = jsonable_encoder(obj_in)
@@ -41,6 +39,25 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, updateSchemaType]):
                                 detail="error to try insert new to do for parameter")
 
 
+    def update(self, db: Session, *, obj_in: CreateSchemaType, id) -> ModelType:
+        db_obj = obj_in.dict(exclude_unset=True)
+        try:
+            task = db.query(self.model).filter(self.model.id == id).\
+            update(db_obj)
+            db.commit()
+            return db_obj
+        except IntegrityError:
+            db.rollback()
+            raise HTTPException(status_code=405, 
+                                detail="error to try update new to do for parameter")
+        
+
+
+    def delete_task(self, id: int, db: Session) -> ModelType:
+        obj = db.query(self.model).get(id)
+        db.delete(obj)
+        db.commit()
+        return obj
         
 
        

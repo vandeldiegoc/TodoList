@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.params import Depends
 from pydantic import BaseModel
-from db.schemas import Todo
+from db.schemas import Todo, TodoUpdate
 from sqlalchemy.orm import Session, session
 from db.deps import get_db
 from crud.crud_recipe import recipe
@@ -28,6 +28,22 @@ def creaate_todo(
     ):
     todo = recipe.create(db=db, obj_in=todo_S)
     return todo
+
+@app.put('/create', status_code=201, response_model=TodoUpdate)
+def update_todo(id: int, todo_u: TodoUpdate, db: session = Depends(get_db)
+    ):
+    todo  = recipe.update(db=db, obj_in=todo_u, id=id)
+    return todo
+
+
+@app.delete("/delete")
+async def delete(
+    id: int,
+    session = Depends(get_db)
+    ):
+    """resive id task and delete task in databases"""
+    recipe.delete_task(id, session)
+    return ('Done')
 
 
 if __name__ == "__main__":

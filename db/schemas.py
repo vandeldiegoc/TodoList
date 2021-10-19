@@ -1,6 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel
-from typing import Sequence
+from typing import Optional
+
 
 class Users(BaseModel):
     id = int
@@ -12,7 +13,11 @@ class Users(BaseModel):
 class Todo(BaseModel):
     id : int
     title: str
-    complated: bool
+    complated: bool = False
 
+class TodoUpdate(BaseModel):
+    title: Optional[str]
+    complated: Optional[bool] = False
+    
 
 """ class Update """
