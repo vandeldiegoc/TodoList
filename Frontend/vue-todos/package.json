@@ -1,0 +1,37 @@
+{
+  "name": "vue-todos",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "core-js": "^3.19.1",
+    "element-plus": "^1.2.0-beta.3",
+    "vue": "^3.0.0",
+    "vue-axios": "^3.4.0",
+    "vue-class-component": "^8.0.0-0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.22",
+    "@types/mocha": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/parser": "^5.3.1",
+    "@vue/cli-plugin-babel": "~4.5.15",
+    "@vue/cli-plugin-eslint": "~4.5.15",
+    "@vue/cli-plugin-typescript": "~4.5.15",
+    "@vue/cli-plugin-unit-mocha": "~4.5.15",
+    "@vue/cli-service": "~4.5.15",
+    "@vue/compiler-sfc": "^3.2.21",
+    "@vue/eslint-config-typescript": "^9.0.1",
+    "@vue/test-utils": "^2.0.0-0",
+    "chai": "^4.3.4",
+    "eslint": "^7.0.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "typescript": "~4.4.4"
+  }
+}

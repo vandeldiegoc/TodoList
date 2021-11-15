@@ -1,5 +1,5 @@
 from crud.base import CRUDBase
-from db.schemas import Todo, Child
+from db.schemas import Todo
 from db.models import TodoList
 
 

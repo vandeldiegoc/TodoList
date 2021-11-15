@@ -2,7 +2,6 @@ from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 from fastapi.encoders import jsonable_encoder
 from fastapi import HTTPException
 from pydantic import BaseModel
-from sqlalchemy.orm import session
 from sqlalchemy.orm.exc import NoResultFound
 from db.base_class import Base
 from db.sess import SessionLocal as Session
@@ -26,6 +25,10 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, updateSchemaType]):
                                 detail='id task dont found')
         return task       
 
+    def get_all(self, db) -> ModelType:
+        task = db.query(self.model).all()   
+        return task
+
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
         obj_in_data = jsonable_encoder(obj_in)
         db_obj = self.model(**obj_in_data)
@@ -36,7 +39,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, updateSchemaType]):
         except IntegrityError:
             db.rollback()
             raise HTTPException(status_code=405, 
-                                detail="error to try insert new to do for parameter")
+                                detail="error to try insert new todo for parameter")
 
 
     def update(self, db: Session, *, obj_in: CreateSchemaType, id) -> ModelType:
