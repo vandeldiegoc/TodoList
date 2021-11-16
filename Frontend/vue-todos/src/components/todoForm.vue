@@ -15,7 +15,7 @@ import { Options, Vue } from 'vue-class-component';
 
 @Options({})
 export default class TodoForm extends Vue{
-    formInput = { title: "", completed: false };
+    formInput = { title: "", complated: false };
 
     onSubmit(){
       if(this.formInput.title.length > 3) {
