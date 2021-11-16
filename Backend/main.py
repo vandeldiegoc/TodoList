@@ -61,7 +61,7 @@ def update_todo(id: int, todo_u: TodoUpdate, db: session = Depends(get_db)
     return todo
 
 
-@app.delete("/delete")
+@app.delete("/delete/{id}")
 async def delete(
     id: int,
     session = Depends(get_db)
